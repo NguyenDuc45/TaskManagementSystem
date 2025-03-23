@@ -25,7 +25,7 @@
                                 <i class="ri-search-line"></i>
                             </span>
                         </li>
-                        <li class="onhover-dropdown">
+                        <li v-if="loggedIn" class="onhover-dropdown">
                             <div class="notification-box">
                                 <i class="ri-notification-line"></i>
                                 <span class="badge rounded-pill badge-theme">4</span>
@@ -65,12 +65,7 @@
                             </ul>
                         </li>
 
-                        <li>
-                            <div class="mode">
-                                <i class="ri-moon-line"></i>
-                            </div>
-                        </li>
-                        <li class="profile-nav onhover-dropdown pe-0 me-0">
+                        <li v-if="loggedIn" class="profile-nav onhover-dropdown pe-0 me-0">
                             <div class="media profile-media">
                                 <img class="user-profile rounded-circle" src="@assets/images/users/4.jpg" alt="">
                                 <div class="user-name-hide media-body">
@@ -104,8 +99,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                        href="javascript:void(0)">
+                                    <a data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="#" @click="logout">
                                         <i data-feather="log-out"></i>
                                         <span>Log out</span>
                                     </a>
@@ -145,7 +139,7 @@
                     <nav class="sidebar-main">
                         <div id="sidebar-menu">
                             <ul class="sidebar-links" id="simple-bar">
-                                <li class="sidebar-list m-4">
+                                <li v-if="loggedIn" class="sidebar-list m-4">
                                     <router-link :to="{ name: 'Home' }" class="sidebar-link sidebar-title link-nav">
                                         <span>
                                             <h3>Trang chủ</h3>
@@ -153,10 +147,26 @@
                                     </router-link>
                                 </li>
 
-                                <li class="sidebar-list m-4">
+                                <li v-if="loggedIn" class="sidebar-list m-4">
                                     <router-link :to="{ name: 'List' }" class="sidebar-link sidebar-title link-nav">
                                         <span>
                                             <h3>Danh sách</h3>
+                                        </span>
+                                    </router-link>
+                                </li>
+
+                                <li v-if="!loggedIn" class="sidebar-list m-4">
+                                    <router-link :to="{ name: 'Register' }" class="sidebar-link sidebar-title link-nav">
+                                        <span>
+                                            <h3>Đăng ký</h3>
+                                        </span>
+                                    </router-link>
+                                </li>
+
+                                <li v-if="!loggedIn" class="sidebar-list m-4">
+                                    <router-link :to="{ name: 'Login' }" class="sidebar-link sidebar-title link-nav">
+                                        <span>
+                                            <h3>Đăng nhập</h3>
                                         </span>
                                     </router-link>
                                 </li>
@@ -169,9 +179,57 @@
 
             <!-- Container-fluid starts-->
             <div class="page-body">
-                <router-view></router-view>
+                <router-view @update-sidebar="updateSidebar"></router-view>
             </div>
         </div>
     </div>
     <!-- page-wrapper End-->
 </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+    data() {
+        return {
+            overlayVisibility: false,
+            loggedIn: false
+        }
+    },
+    methods: {
+        showOverlay() {
+            this.overlayVisibility = true
+        },
+
+        hideOverlay() {
+            this.overlayVisibility = false
+        },
+
+        updateSidebar() {
+            this.loggedIn = !this.loggedIn
+        },
+
+        logout() {
+            axios
+                .post("api/logout")
+                .then((response) => (this.$router.push({ name: "Login" })))
+                .catch((error) => console.log(error))
+
+            localStorage.setItem('authenticated', 'false')
+            this.loggedIn = false
+        }
+    },
+    mounted() {
+        axios
+            .get('/api/user')
+            .then((response) => console.log(response))
+            .catch(error => console.log(error))
+
+        if (localStorage.getItem('authenticated')) {
+            this.loggedIn = true
+        } else {
+            this.loggedIn = false
+        }
+    }
+}
+</script>

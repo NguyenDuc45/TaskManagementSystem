@@ -516,3 +516,21 @@
     </div>
     <!-- Container-fluid Ends-->
 </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+    data() {
+        return {
+            name: ''
+        }
+    },
+    mounted() {
+        // axios
+        //     .get('/api/user')
+        //     .then((response) => console.log(response))
+        //     .catch(error => console.log(error))
+    }
+}
+</script>
