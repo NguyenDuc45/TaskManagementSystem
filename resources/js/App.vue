@@ -117,15 +117,15 @@
                                 <li v-if="loggedIn" class="sidebar-list m-4">
                                     <router-link :to="{ name: 'Home' }" class="sidebar-link sidebar-title link-nav">
                                         <span>
-                                            <h3>Trang chủ</h3>
+                                            <h3>Danh sách công việc</h3>
                                         </span>
                                     </router-link>
                                 </li>
 
                                 <li v-if="loggedIn" class="sidebar-list m-4">
-                                    <router-link :to="{ name: 'List' }" class="sidebar-link sidebar-title link-nav">
+                                    <router-link :to="{ name: 'ListUser' }" class="sidebar-link sidebar-title link-nav">
                                         <span>
-                                            <h3>Danh sách</h3>
+                                            <h3>Danh sách người dùng</h3>
                                         </span>
                                     </router-link>
                                 </li>
@@ -154,7 +154,7 @@
 
             <!-- Container-fluid starts-->
             <div class="page-body">
-                <router-view></router-view>
+                <router-view @update-login="loggedIn = true"></router-view>
             </div>
         </div>
     </div>
@@ -181,9 +181,17 @@ export default {
         //     this.overlayVisibility = false
         // },
 
-        // updateSidebar() {
-        //     this.loggedIn = !this.loggedIn
+        // updateLoginStatus() {
+        //     this.loggedIn = true
+        //     console.log('updated');
         // },
+
+        getUserName() {
+            axios
+                .get('/api/user')
+                .then((response) => this.name = response.data.name)
+                .catch(error => console.log(error))
+        },
 
         logout() {
             axios
@@ -196,13 +204,11 @@ export default {
         }
     },
     mounted() {
-        axios
-            .get('/api/user')
-            .then((response) => this.name = response.data.name)
-            .catch(error => console.log(error))
-
         if (localStorage.getItem('authenticated')) {
             this.loggedIn = true
+            this.getUserName()
+            console.log('success')
+
         } else {
             this.loggedIn = false
             this.$router.push({ name: "Login" })

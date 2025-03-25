@@ -27,5 +27,5 @@ Route::middleware('auth:sanctum')->post('logout', [AuthenticatedSessionControlle
 Route::post('register', [RegisteredUserController::class, 'store']);
 Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
-Route::resource('user', UserController::class);
+Route::resource('users', UserController::class);
 Route::resource('task', TaskController::class);

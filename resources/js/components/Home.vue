@@ -9,6 +9,14 @@
                             <div class="right-options">
                                 <ul>
                                     <li>
+                                        <select v-model="status" class="form-control">
+                                            <option value="all">Tất cả</option>
+                                            <option value="0">Chưa làm</option>
+                                            <option value="1">Đang làm</option>
+                                            <option value="2">Đã làm</option>
+                                        </select>
+                                    </li>
+                                    <li>
                                         <router-link :to="{ name: 'AddTask' }" class="btn btn-solid">
                                             Thêm công việc</router-link>
                                     </li>
@@ -17,7 +25,7 @@
                         </div>
                         <div>
                             <div class="table-responsive">
-                                <table class="table all-package theme-table table-product" id="table_id">
+                                <table class="table all-package theme-table table-product">
                                     <thead>
                                         <tr>
                                             <th>Tên công việc</th>
@@ -29,7 +37,7 @@
                                     </thead>
 
                                     <tbody v-if="tasks.length > 0">
-                                        <tr v-for="(task, key) in tasks" :key="key">
+                                        <tr v-for="(task, key) in filteredTasks(status)" :key="key">
                                             <td>{{ task.ten_cong_viec }}</td>
                                             <td>
                                                 <span v-if="task.trang_thai == 0" class="text-danger">Chưa làm</span>
@@ -40,11 +48,11 @@
                                             <td>{{ task.name }}</td>
                                             <td>
                                                 <ul>
-                                                    <li>
+                                                    <!-- <li>
                                                         <a href="order-detail.html">
                                                             <i class="ri-eye-line"></i>
                                                         </a>
-                                                    </li>
+                                                    </li> -->
 
                                                     <li>
                                                         <router-link
@@ -79,7 +87,8 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            tasks: {}
+            tasks: {},
+            status: 'all'
         }
     },
     mounted() {
@@ -95,6 +104,11 @@ export default {
                 .get('/api/task')
                 .then((response) => this.tasks = response.data)
                 .catch(error => console.log(error))
+        },
+        filteredTasks(status) {
+            if (status != 'all') {
+                return this.tasks.filter(task => task.trang_thai == status);
+            } else return this.tasks
         },
         deleteTask(id) {
             if (confirm("Xác nhận xóa công việc này?")) {

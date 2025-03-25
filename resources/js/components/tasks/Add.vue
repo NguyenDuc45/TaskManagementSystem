@@ -90,7 +90,7 @@ export default {
         },
         async getUsers() {
             await axios
-                .get('/api/user')
+                .get('/api/users')
                 .then((response) => this.users = response.data)
                 .catch(error => console.log(error))
         },

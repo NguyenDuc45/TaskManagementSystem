@@ -26,7 +26,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="forgot-box">
                                 <div class="form-check ps-0 m-0 remember-box">
                                     <input class="checkbox_animated check-box" type="checkbox" id="flexCheckDefault">
@@ -34,7 +34,7 @@
                                 </div>
                                 <a href="forgot.html" class="forgot-password">Quên mật khẩu</a>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-12">
                             <button class="btn btn-animation w-100 justify-content-center" type="submit">
@@ -62,7 +62,7 @@ export default {
             axios.post('/api/login', this.fields).then(() => {
                 this.$router.push({ name: "Home" })
                 localStorage.setItem('authenticated', 'true')
-                // this.$emit("updateSidebar")
+                this.$emit("update-login")
             }).catch((error) => {
                 this.errors = error.response.data.errors
             })
