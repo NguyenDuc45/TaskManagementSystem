@@ -69,39 +69,14 @@
                             <div class="media profile-media">
                                 <img class="user-profile rounded-circle" src="@assets/images/users/4.jpg" alt="">
                                 <div class="user-name-hide media-body">
-                                    <span>Emay Walter</span>
-                                    <p class="mb-0 font-roboto">Admin<i class="middle ri-arrow-down-s-line"></i></p>
+                                    <span>{{ name }}<i class="middle ri-arrow-down-s-line"></i></span>
                                 </div>
                             </div>
                             <ul class="profile-dropdown onhover-show-div">
                                 <li>
-                                    <a href="all-users.html">
-                                        <i data-feather="users"></i>
-                                        <span>Users</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="order-list.html">
-                                        <i data-feather="archive"></i>
-                                        <span>Orders</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="support-ticket.html">
-                                        <i data-feather="phone"></i>
-                                        <span>Spports Tickets</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="profile-setting.html">
-                                        <i data-feather="settings"></i>
-                                        <span>Settings</span>
-                                    </a>
-                                </li>
-                                <li>
                                     <a data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="#" @click="logout">
                                         <i data-feather="log-out"></i>
-                                        <span>Log out</span>
+                                        <span>Đăng xuất</span>
                                     </a>
                                 </li>
                             </ul>
@@ -179,7 +154,7 @@
 
             <!-- Container-fluid starts-->
             <div class="page-body">
-                <router-view @update-sidebar="updateSidebar"></router-view>
+                <router-view></router-view>
             </div>
         </div>
     </div>
@@ -192,22 +167,23 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            overlayVisibility: false,
-            loggedIn: false
+            // overlayVisibility: false,
+            loggedIn: false,
+            name: ''
         }
     },
     methods: {
-        showOverlay() {
-            this.overlayVisibility = true
-        },
+        // showOverlay() {
+        //     this.overlayVisibility = true
+        // },
 
-        hideOverlay() {
-            this.overlayVisibility = false
-        },
+        // hideOverlay() {
+        //     this.overlayVisibility = false
+        // },
 
-        updateSidebar() {
-            this.loggedIn = !this.loggedIn
-        },
+        // updateSidebar() {
+        //     this.loggedIn = !this.loggedIn
+        // },
 
         logout() {
             axios
@@ -215,21 +191,25 @@ export default {
                 .then((response) => (this.$router.push({ name: "Login" })))
                 .catch((error) => console.log(error))
 
-            localStorage.setItem('authenticated', 'false')
+            localStorage.removeItem('authenticated')
             this.loggedIn = false
         }
     },
     mounted() {
         axios
             .get('/api/user')
-            .then((response) => console.log(response))
+            .then((response) => this.name = response.data.name)
             .catch(error => console.log(error))
 
         if (localStorage.getItem('authenticated')) {
             this.loggedIn = true
         } else {
             this.loggedIn = false
+            this.$router.push({ name: "Login" })
         }
+
+        // console.log(localStorage.getItem('authenticated'));
+        // console.log(this.loggedIn);
     }
 }
 </script>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -24,3 +26,6 @@ Route::middleware('auth:sanctum')->post('logout', [AuthenticatedSessionControlle
 
 Route::post('register', [RegisteredUserController::class, 'store']);
 Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+Route::resource('user', UserController::class);
+Route::resource('task', TaskController::class);

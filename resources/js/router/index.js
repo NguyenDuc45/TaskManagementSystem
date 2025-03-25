@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Home from "../pages/Home.vue";
-import List from "../pages/List.vue";
-import Login from "../pages/Login.vue";
-import Register from "../pages/Register.vue";
+import Home from "../components/Home.vue";
+import List from "../components/List.vue";
+import Login from "../components/Login.vue";
+import Register from "../components/Register.vue";
+import AddTask from "../components/tasks/Add.vue";
+import EditTask from "../components/tasks/Edit.vue";
 
 const routes = [
     {
@@ -25,6 +27,16 @@ const routes = [
         path: "/list",
         name: "List",
         component: List,
+    },
+    {
+        path: "/task/add",
+        name: "AddTask",
+        component: AddTask,
+    },
+    {
+        path: "/task/:id/edit",
+        name: "EditTask",
+        component: EditTask,
     },
 ];
 
