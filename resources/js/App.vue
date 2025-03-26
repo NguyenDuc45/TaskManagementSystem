@@ -207,7 +207,7 @@ export default {
         if (localStorage.getItem('authenticated')) {
             this.loggedIn = true
             this.getUserName()
-            console.log('success')
+            // console.log('success')
 
         } else {
             this.loggedIn = false

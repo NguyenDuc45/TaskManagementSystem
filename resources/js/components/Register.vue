@@ -65,7 +65,7 @@ export default {
     methods: {
         submit() {
             axios.post('/api/register', this.fields).then(() => {
-                this.$router.push({ name: "Home" })
+                this.$router.push({ name: "Login" })
             }).catch((error) => {
                 this.errors = error.response.data.errors
             })
