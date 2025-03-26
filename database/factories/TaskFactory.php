@@ -20,7 +20,8 @@ class TaskFactory extends Factory
             'ten_cong_viec' => $this->faker->name(),
             'trang_thai' => $this->faker->numberBetween(0, 2),
             'ngay_het_han' => $this->faker->dateTimeBetween('now', '+1 months'),
-            'user_id' => $this->faker->numberBetween(1, 20)
+            'nguoi_phan_cong_id' => $this->faker->numberBetween(1, 20),
+            'nguoi_lam_id' => $this->faker->numberBetween(1, 20)
         ];
     }
 }

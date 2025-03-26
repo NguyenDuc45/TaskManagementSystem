@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Home from "../components/Home.vue";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
+import ListTask from "../components/tasks/List.vue";
 import AddTask from "../components/tasks/Add.vue";
 import EditTask from "../components/tasks/Edit.vue";
 import ListUser from "../components/users/List.vue";
@@ -11,8 +11,8 @@ import ShowUser from "../components/users/Show.vue";
 const routes = [
     {
         path: "/",
-        name: "Home",
-        component: Home,
+        name: "ListTask",
+        component: ListTask,
     },
     {
         path: "/register",

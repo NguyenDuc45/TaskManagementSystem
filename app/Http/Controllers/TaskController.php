@@ -13,8 +13,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::select('tasks.*', 'users.name')
-            ->join('users', 'tasks.user_id', '=', 'users.id')
+        $tasks = Task::select('tasks.*', 'u1.name as nguoi_phan_cong_name', 'u2.name as nguoi_lam_name')
+            ->join('users as u1', 'tasks.nguoi_phan_cong_id', '=', 'u1.id')
+            ->join('users as u2', 'tasks.nguoi_lam_id', '=', 'u2.id')
             ->orderBy('id', 'desc')
             ->get();
         return response()->json($tasks);

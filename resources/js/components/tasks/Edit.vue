@@ -44,7 +44,7 @@
                             <div class="col-12 mb-2">
                                 <div class="form-group">
                                     <label>Người làm</label>
-                                    <select class="form-control" v-model="tasks.user_id">
+                                    <select class="form-control" v-model="tasks.nguoi_lam_id">
                                         <option v-for="user in users" :key="user.id" :value="user.id">
                                             {{ user.name }}
                                         </option>
@@ -67,21 +67,24 @@ export default {
     data() {
         return {
             tasks: { _method: "patch" },
-            users: {},
+            users: {
+                nguoi_phan_cong_id: ''
+            },
         }
     },
     mounted() {
+        this.getCurrentUserId()
         this.getUsers()
         this.showTask()
     },
     methods: {
         async showTask() {
             await axios.get(`/api/task/${this.$route.params.id}`).then(response => {
-                const { ten_cong_viec, trang_thai, ngay_het_han, user_id, } = response.data
+                const { ten_cong_viec, trang_thai, ngay_het_han, nguoi_lam_id, } = response.data
                 this.tasks.ten_cong_viec = ten_cong_viec
                 this.tasks.trang_thai = trang_thai
                 this.tasks.ngay_het_han = ngay_het_han
-                this.tasks.user_id = user_id
+                this.tasks.nguoi_lam_id = nguoi_lam_id
                 console.log(response);
 
             }).catch(error => {
@@ -94,9 +97,15 @@ export default {
                 .then((response) => this.users = response.data)
                 .catch(error => console.log(error))
         },
+        async getCurrentUserId() {
+            await axios
+                .get('/api/user')
+                .then((response) => this.tasks.nguoi_phan_cong_id = response.data.id)
+                .catch(error => console.log(error))
+        },
         async submit() {
             await axios.post(`/api/task/${this.$route.params.id}`, this.tasks).then(response => {
-                this.$router.push({ name: "Home" })
+                this.$router.push({ name: "ListTask" })
             }).catch(error => {
                 console.log(error)
             })

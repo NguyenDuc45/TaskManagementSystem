@@ -44,7 +44,7 @@
                             <div class="col-12 mb-2">
                                 <div class="form-group">
                                     <label>Người làm</label>
-                                    <select class="form-control" v-model="tasks.user_id">
+                                    <select class="form-control" v-model="tasks.nguoi_lam_id">
                                         <option v-for="user in users" :key="user.id" :value="user.id">
                                             {{ user.name }}
                                         </option>
@@ -66,12 +66,15 @@
 export default {
     data() {
         return {
-            tasks: {},
+            tasks: {
+                nguoi_phan_cong_id: ''
+            },
             users: {},
             // errors: {},
         }
     },
     mounted() {
+        this.getCurrentUserId()
         this.getUsers()
         // console.log(this.users);
     },
@@ -81,7 +84,7 @@ export default {
 
             await axios
                 .post('/api/task', this.tasks)
-                .then(() => { this.$router.push({ name: "Home" }) })
+                .then(() => { this.$router.push({ name: "ListTask" }) })
                 .catch((error) => {
                     // this.errors = error.response.data.errors
                     console.log(error);
@@ -92,6 +95,12 @@ export default {
             await axios
                 .get('/api/users')
                 .then((response) => this.users = response.data)
+                .catch(error => console.log(error))
+        },
+        async getCurrentUserId() {
+            await axios
+                .get('/api/user')
+                .then((response) => this.tasks.nguoi_phan_cong_id = response.data.id)
                 .catch(error => console.log(error))
         },
     },

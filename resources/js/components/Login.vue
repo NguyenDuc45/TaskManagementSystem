@@ -60,7 +60,7 @@ export default {
     methods: {
         submit() {
             axios.post('/api/login', this.fields).then(() => {
-                this.$router.push({ name: "Home" })
+                this.$router.push({ name: "ListTask" })
                 localStorage.setItem('authenticated', 'true')
                 this.$emit("update-login")
             }).catch((error) => {

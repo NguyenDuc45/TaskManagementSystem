@@ -23,6 +23,7 @@
                                 <th>Tên công việc</th>
                                 <th>Trạng thái</th>
                                 <th>Ngày hết hạn</th>
+                                <th>Người phân công</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -36,6 +37,7 @@
                                     <span v-if="task.trang_thai == 2" class="text-success">Đã làm</span>
                                 </td>
                                 <td>{{ task.ngay_het_han }}</td>
+                                <td>{{ task.nguoi_phan_cong_name }}</td>
                                 <td>
                                     <ul>
                                         <!-- <li>
@@ -95,7 +97,7 @@ export default {
     },
     computed: {
         filteredTasks() {
-            return this.tasks.filter(task => task.user_id == this.$route.params.id);
+            return this.tasks.filter(task => task.nguoi_lam_id == this.$route.params.id);
         }
     }
 }

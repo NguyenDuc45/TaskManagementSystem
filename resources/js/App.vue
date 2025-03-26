@@ -115,7 +115,7 @@
                         <div id="sidebar-menu">
                             <ul class="sidebar-links" id="simple-bar">
                                 <li v-if="loggedIn" class="sidebar-list m-4">
-                                    <router-link :to="{ name: 'Home' }" class="sidebar-link sidebar-title link-nav">
+                                    <router-link :to="{ name: 'ListTask' }" class="sidebar-link sidebar-title link-nav">
                                         <span>
                                             <h3>Danh sách công việc</h3>
                                         </span>

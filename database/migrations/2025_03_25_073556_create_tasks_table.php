@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('ten_cong_viec');
             $table->tinyInteger('trang_thai')->default(0);
             $table->date('ngay_het_han');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('nguoi_phan_cong_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('nguoi_lam_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

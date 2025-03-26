@@ -13,6 +13,7 @@ class Task extends Model
         'ten_cong_viec',
         'trang_thai',
         'ngay_het_han',
-        'user_id'
+        'nguoi_phan_cong_id',
+        'nguoi_lam_id'
     ];
 }
