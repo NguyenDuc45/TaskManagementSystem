@@ -123,6 +123,14 @@
                                 </li>
 
                                 <li v-if="loggedIn" class="sidebar-list m-4">
+                                    <router-link :to="{ name: 'MyTask' }" class="sidebar-link sidebar-title link-nav">
+                                        <span>
+                                            <h3>Công việc của tôi</h3>
+                                        </span>
+                                    </router-link>
+                                </li>
+
+                                <li v-if="loggedIn" class="sidebar-list m-4">
                                     <router-link :to="{ name: 'ListUser' }" class="sidebar-link sidebar-title link-nav">
                                         <span>
                                             <h3>Danh sách người dùng</h3>

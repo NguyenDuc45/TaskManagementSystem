@@ -5,7 +5,7 @@
                 <div class="card card-table">
                     <div class="card-body">
                         <div class="title-header option-title d-sm-flex d-block">
-                            <h5>Danh sách công việc</h5>
+                            <h5>Công việc của tôi</h5>
                             <div class="right-options">
                                 <ul>
                                     <li>
@@ -32,7 +32,6 @@
                                             <th>Trạng thái</th>
                                             <th>Ngày hết hạn</th>
                                             <th>Người phân công</th>
-                                            <th>Người làm</th>
                                             <th>Hành động</th>
                                         </tr>
                                     </thead>
@@ -47,7 +46,6 @@
                                             </td>
                                             <td>{{ task.ngay_het_han }}</td>
                                             <td>{{ task.nguoi_phan_cong_name }}</td>
-                                            <td>{{ task.nguoi_lam_name }}</td>
                                             <td>
                                                 <ul>
                                                     <!-- <li>
@@ -90,10 +88,12 @@ export default {
     data() {
         return {
             tasks: {},
-            status: 'all'
+            status: 'all',
+            current_user_id: ''
         }
     },
     mounted() {
+        this.getCurrentUserId()
         this.getTasks()
 
         // if (!localStorage.getItem('authenticated')) {
@@ -101,6 +101,12 @@ export default {
         // }
     },
     methods: {
+        async getCurrentUserId() {
+            await axios
+                .get('/api/user')
+                .then((response) => this.current_user_id = response.data.id)
+                .catch(error => console.log(error))
+        },
         async getTasks() {
             await axios
                 .get('/api/task')
@@ -109,8 +115,8 @@ export default {
         },
         filteredTasks(status) {
             if (status != 'all') {
-                return this.tasks.filter(task => task.trang_thai == status);
-            } else return this.tasks
+                return this.tasks.filter(task => task.trang_thai == status && task.nguoi_lam_id == this.current_user_id);
+            } else return this.tasks.filter(task => task.nguoi_lam_id == this.current_user_id);
         },
         deleteTask(id) {
             if (confirm("Xác nhận xóa công việc này?")) {
